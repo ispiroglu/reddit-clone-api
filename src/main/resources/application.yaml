@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/reddit-clone
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+keycloak:
+  auth-server-url: http://localhost:8000/
+  realm: RedditKeycloak
+  resource: reddit-keycloak
+  public-client: true
+

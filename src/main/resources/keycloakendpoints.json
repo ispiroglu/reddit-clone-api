@@ -1,0 +1,8 @@
+{
+  "issuer": "http://localhost:8000/realms/RedditKeycloak",
+  "authorization_endpoint": "http://localhost:8000/realms/RedditKeycloak/protocol/openid-connect/auth",
+  "token_endpoint": "http://localhost:8000/realms/RedditKeycloak/protocol/openid-connect/token",
+  "introspection_endpoint": "http://localhost:8000/realms/RedditKeycloak/protocol/openid-connect/token/introspect",
+  "userinfo_endpoint": "http://localhost:8000/realms/RedditKeycloak/protocol/openid-connect/userinfo",
+  "end_session_endpoint": "http://localhost:8000/realms/RedditKeycloak/protocol/openid-connect/logout"
+}
