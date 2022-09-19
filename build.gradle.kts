@@ -31,7 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
 
 
-
+    implementation("org.keycloak:keycloak-spring-boot-starter:18.0.2")
     implementation("org.keycloak:keycloak-admin-client:18.0.2")
     implementation("org.jboss.resteasy:resteasy-client:4.6.0.Final")
     implementation("org.jboss.resteasy:resteasy-client-reactor-netty:4.6.0.Final")

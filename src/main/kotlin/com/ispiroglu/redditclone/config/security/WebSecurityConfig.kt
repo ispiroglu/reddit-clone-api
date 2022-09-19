@@ -1,5 +1,7 @@
 package com.ispiroglu.redditclone.config.security
 
+import org.keycloak.adapters.KeycloakConfigResolver
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -9,14 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
 
-@EnableWebSecurity
+
 @Configuration
 class WebSecurityConfig {
-    @Bean
-    fun filterChain(httpSecurity: HttpSecurity) : SecurityFilterChain {
-        httpSecurity.csrf().disable().authorizeRequests().anyRequest().permitAll()
-        return httpSecurity.build()
-    }
+//    @Bean
+//    fun filterChain(httpSecurity: HttpSecurity) : SecurityFilterChain {
+//        httpSecurity.csrf().disable().authorizeRequests().anyRequest().permitAll()
+//        return httpSecurity.build()
+//    }
 
 //    @Bean
 //    fun filterChain(http: HttpSecurity) : SecurityFilterChain {
@@ -32,6 +34,11 @@ class WebSecurityConfig {
 //
 //        return http.build()
 //    }
+
+    @Bean
+    fun keycloakConfigResolver(): KeycloakConfigResolver? {
+        return KeycloakSpringBootConfigResolver()
+    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()

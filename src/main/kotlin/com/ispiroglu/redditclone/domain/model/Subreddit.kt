@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank
 @Entity
 data class Subreddit(
 
-    @Id @GeneratedValue private val subredditId: Long,
+    @Id @GeneratedValue private val subredditId: Long? = null,
     @NotBlank private val subredditName: String,
     @NotBlank private val subredditDesc: String,
 
@@ -21,5 +21,5 @@ data class Subreddit(
     private val postList: MutableList<Post> = mutableListOf(),
     @CreatedDate private val createdDate: Instant,
     @ManyToOne(fetch = FetchType.LAZY)
-    private val redditor: Redditor
+    private val redditor: Redditor? = null
 )
