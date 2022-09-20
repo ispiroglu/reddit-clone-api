@@ -13,13 +13,13 @@ import javax.validation.constraints.NotBlank
 @Entity
 data class Subreddit(
 
-    @Id @GeneratedValue private val subredditId: Long? = null,
-    @NotBlank private val subredditName: String,
-    @NotBlank private val subredditDesc: String,
+    @Id @GeneratedValue val subredditId: Long? = null,
+    @NotBlank val subredditName: String,
+    @NotBlank val subredditDesc: String,
 
     @OneToMany(fetch = FetchType.LAZY)
-    private val postList: MutableList<Post> = mutableListOf(),
-    @CreatedDate private val createdDate: Instant,
+    val postList: MutableList<Post> = mutableListOf(),
+    @CreatedDate  val createdDate: Instant,
     @ManyToOne(fetch = FetchType.LAZY)
-    private val redditor: Redditor? = null
+    val redditor: Redditor? = null
 )

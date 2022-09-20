@@ -5,12 +5,12 @@ import javax.persistence.*
 
 @Entity
 data class Vote(
-    @Id @GeneratedValue private val voteId: Long,
-    private var voteType: VoteType,
+    @Id @GeneratedValue val voteId: Long? = null,
+    var voteType: VoteType,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")
-    private val post: Post,
+    val post: Post,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "redditorId", referencedColumnName = "redditorId")
-    private val redditor: Redditor,
+    val redditor: Redditor,
 )

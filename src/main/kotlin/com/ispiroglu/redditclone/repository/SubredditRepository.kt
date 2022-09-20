@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SubredditRepository : JpaRepository<Subreddit, Long> {
 
-    fun findBySubredditName(subredditName: String) : Subreddit?
+    fun findBySubredditName(subredditName: String): Subreddit?
+
+    fun existsSubredditBySubredditName(subredditName: String): Boolean
 }

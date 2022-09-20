@@ -11,17 +11,17 @@ import javax.validation.constraints.NotEmpty
 
 @Entity
 data class Comment(
-    @Id @GeneratedValue private val commendId: Long,
+    @Id @GeneratedValue val commendId: Long? = null ,
 
-    @NotEmpty private val text: String,
+    @NotEmpty val text: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")
-    private val post: Post,
+    val post: Post,
 
-    @CreatedDate private val createdDate: Instant,
+    @CreatedDate val createdDate: Instant,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "redditorId", referencedColumnName = "redditorId")
-    private val redditor: Redditor
+    val redditor: Redditor
 )

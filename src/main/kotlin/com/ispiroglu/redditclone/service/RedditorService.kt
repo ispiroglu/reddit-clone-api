@@ -23,5 +23,6 @@ class RedditorService(
         save(redditor)
     }
 
-    fun getRedditorByUsername(username: String) = redditorRepository.findByUsername(username) ?: throw NoSuchElementException("There is no user with that username !!")
+    fun getRedditorByUsername(username: String) = redditorRepository.findByUsername(username)
+        ?: throw NoSuchElementException("There is no user with that username !!")
 }

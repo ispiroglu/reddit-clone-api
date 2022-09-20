@@ -1,13 +1,19 @@
 package com.ispiroglu.redditclone.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.ispiroglu.redditclone.domain.dto.request.CreateCommentRequest
+import com.ispiroglu.redditclone.service.CommentService
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/comment")
-class CommentController {
+class CommentController(private val commentService: CommentService) {
 
-    @GetMapping
-    fun getComments() = "Hello from comments"
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping()
+    fun createComment(@RequestBody request: CreateCommentRequest) = commentService.createComment(request)
+
+    @GetMapping("/{subredditName}/{postTitle}")
+    fun getAllCommentsOfPost(@PathVariable subredditName: String, @PathVariable postTitle: String) = commentService.getAllCommentsOfPost(subredditName, postTitle)
+
 }

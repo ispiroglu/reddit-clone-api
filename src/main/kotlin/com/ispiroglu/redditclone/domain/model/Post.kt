@@ -6,21 +6,21 @@ import javax.validation.constraints.NotBlank
 @Entity
 data class Post(
 
-    @Id @GeneratedValue private val postId: Long,
+    @Id @GeneratedValue val postId: Long? = null,
 
-    @NotBlank private val postName: String,
+    @NotBlank val postTitle: String,
 
-    private val postUrl: String?,
-    @Lob private val postDesc: String?,
+    val postUrl: String ? = null,
+    @Lob val postDesc: String? = null,
 
-    private var voteCount: Int = 0,
+    var voteCount: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "redditorId", referencedColumnName = "redditorId")
-    private val owner: Redditor,
+    val owner: Redditor,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subredditId", referencedColumnName = "subredditId")
-    private val subreddit: Subreddit
+    val subreddit: Subreddit
 )
 

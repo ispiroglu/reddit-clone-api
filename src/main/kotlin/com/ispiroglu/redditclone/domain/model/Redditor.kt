@@ -10,12 +10,12 @@ import javax.validation.constraints.NotBlank
 
 @Entity
 data class Redditor(
-    @Id @GeneratedValue private val redditorId: Long? = null,
-    @NotBlank private val username: String,
-    @NotBlank private val password: String,
-    @Email private val email: String,
-    @CreatedDate private val createdDate: Instant? = null,
-    private var enabled: Boolean = true, // need to add verification system
+    @Id @GeneratedValue val redditorId: Long? = null,
+    @NotBlank val username: String,
+    @NotBlank val password: String,
+    @Email val email: String,
+    @CreatedDate val createdDate: Instant? = null,
+    var enabled: Boolean = true, // need to add verification system
 
 //    @OneToMany(fetch = FetchType.LAZY)
 //    private var userComments: MutableCollection<Comment>

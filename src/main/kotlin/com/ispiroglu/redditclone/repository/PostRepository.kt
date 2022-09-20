@@ -11,4 +11,8 @@ interface PostRepository: JpaRepository<Post, Long> {
     fun findAllBySubreddit(subreddit: Subreddit) : MutableList<Post>
 
     fun findAllByOwner(redditor: Redditor): MutableList<Post>
+
+    fun findPostBySubredditAndPostTitle(subreddit: Subreddit, postTitle: String): Post?
+
+    fun findPostByOwner(owner: Redditor): Post?
 }
