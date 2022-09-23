@@ -21,6 +21,10 @@ data class Post(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subredditId", referencedColumnName = "subredditId")
-    val subreddit: Subreddit
+    val subreddit: Subreddit,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId", referencedColumnName = "postId")
+    val comments: MutableList<Comment> = mutableListOf()
 )
 

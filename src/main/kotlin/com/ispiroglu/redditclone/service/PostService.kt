@@ -1,7 +1,10 @@
 package com.ispiroglu.redditclone.service
 
 import com.ispiroglu.redditclone.domain.dto.request.CreatePostRequest
+import com.ispiroglu.redditclone.domain.dto.response.PostDto
+import com.ispiroglu.redditclone.domain.model.Comment
 import com.ispiroglu.redditclone.domain.model.Post
+import com.ispiroglu.redditclone.extensions.asDto
 import com.ispiroglu.redditclone.repository.PostRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,25 +16,25 @@ class PostService(
     private val subredditService: SubredditService
 ) {
 
+    @Transactional
     fun save(post: Post) = postRepository.save(post)
 
-    fun createPost(request: CreatePostRequest) {
+    @Transactional
+    fun createPost(request: CreatePostRequest): PostDto {
+        val subreddit = subredditService.getSubredditByName(request.subredditName)
         val post = Post(
             postTitle = request.title,
             postDesc = request.desc,
             owner = redditorService.getRedditorByUsername(AuthService.getRequestOwnerUsername()),
-            subreddit = subredditService.getSubredditByName(request.subredditName)
+            subreddit = subreddit
         )
-
         save(post)
-
-        /*
-        * Should return some DTO or URL LOL
-        * */
+        subredditService.addPostToSubreddit(subreddit, post)
+        return PostDto(post.postTitle, post.postDesc, subreddit.subredditName)
     }
 
     @Transactional(readOnly = true)
-    fun getAllPosts(): MutableList<Post> = postRepository.findAll()
+    fun getAllPosts(): List<PostDto> = postRepository.findAll().asDto()
 
     @Transactional(readOnly = true)
     fun getPost(subredditName: String, postTitle: String): Post =
@@ -39,6 +42,18 @@ class PostService(
         throw NoSuchElementException("Could not find the post with given subreddit name. $subredditName, postTitle: $postTitle")
 
     @Transactional(readOnly = true)
+    fun getPostAsDto(subredditName: String, postTitle: String) = getPost(subredditName, postTitle).asDto()
+
+    @Transactional(readOnly = true)
     fun getPostsByUsername(username: String) = postRepository.findPostByOwner(redditorService.getRedditorByUsername(username)) ?:
     throw NoSuchElementException("Could not find the posts with given username: $username")
+
+    @Transactional(readOnly = true)
+    fun getPostsByUsernameAsDto(username: String) = getPostsByUsername(username).asDto()
+
+    @Transactional
+    fun addCommentToPost(post: Post, comment: Comment) {
+        post.comments.add(comment)
+        postRepository.save(post)
+    }
 }

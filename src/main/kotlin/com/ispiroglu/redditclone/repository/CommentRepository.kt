@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CommentRepository: JpaRepository<Comment, Long> {
-    fun findCommentsByPost(post: Post) : MutableList<Comment>
+    fun findCommentsByPost(post: Post) : List<Comment>
     fun findAllByRedditor(redditor: Redditor) : MutableList<Comment>
 }

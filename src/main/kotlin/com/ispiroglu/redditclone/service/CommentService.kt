@@ -1,7 +1,9 @@
 package com.ispiroglu.redditclone.service
 
 import com.ispiroglu.redditclone.domain.dto.request.CreateCommentRequest
+import com.ispiroglu.redditclone.domain.dto.response.CommentDto
 import com.ispiroglu.redditclone.domain.model.Comment
+import com.ispiroglu.redditclone.extensions.asDto
 import com.ispiroglu.redditclone.repository.CommentRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,26 +16,34 @@ class CommentService(
     private val postService: PostService
 ) {
 
+    @Transactional
     fun save(comment: Comment) = commentRepository.save(comment)
 
-    fun createComment(request: CreateCommentRequest) {
+    @Transactional
+    fun createComment(request: CreateCommentRequest): CommentDto {
+        val post = postService.getPost(request.subredditName, request.postTitle)
+        val redditor =  redditorService.getRedditorByUsername( AuthService.getRequestOwnerUsername() )
         val comment = Comment(
             text = request.text,
-            post = postService.getPost(request.subredditName, request.postTitle),
-            redditor = redditorService.getRedditorByUsername( AuthService.getRequestOwnerUsername() ),
+            post = post,
+            redditor = redditor,
             createdDate = Instant.now()
         )
-
         /*
         * Notification System!
-        * */
-
-        save(comment)
+        */
+        val dto = save(comment).asDto()
+        postService.addCommentToPost(post, comment)
+        return dto
     }
 
     @Transactional(readOnly = true)
-    fun getAllCommentsOfPost(subredditName: String, postTitle: String): MutableList<Comment> {
+    fun getAllCommentsOfPost(subredditName: String, postTitle: String): List<Comment> {
         val post = postService.getPost(subredditName, postTitle)
         return commentRepository.findCommentsByPost(post)
     }
+
+    @Transactional(readOnly = true)
+    fun getAllCommentsOfPostAsDto(subredditName: String, postTitle: String): List<CommentDto>
+        = getAllCommentsOfPost(subredditName, postTitle).asDto()
 }

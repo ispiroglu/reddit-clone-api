@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty
 
 @Entity
 data class Comment(
-    @Id @GeneratedValue val commendId: Long? = null ,
+    @Id @GeneratedValue val commentId: Long? = null,
 
     @NotEmpty val text: String,
 
