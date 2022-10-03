@@ -9,16 +9,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 @Configuration
-class WebSecurityConfig {
+@EnableWebMvc
+class WebSecurityConfig : WebMvcConfigurer {
 //    @Bean
 //    fun filterChain(httpSecurity: HttpSecurity) : SecurityFilterChain {
 //        httpSecurity.csrf().disable().authorizeRequests().anyRequest().permitAll()
 //        return httpSecurity.build()
 //    }
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowedMethods("*")
+    .maxAge(3600L)
+    .allowedHeaders("*")
+//    .exposedHeaders("Authorization")
+}
 
 //    @Bean
 //    fun filterChain(http: HttpSecurity) : SecurityFilterChain {
@@ -34,6 +45,8 @@ class WebSecurityConfig {
 //
 //        return http.build()
 //    }
+
+
 
     @Bean
     fun keycloakConfigResolver(): KeycloakConfigResolver? {

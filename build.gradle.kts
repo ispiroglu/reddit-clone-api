@@ -39,9 +39,8 @@ dependencies {
     implementation("org.jboss.resteasy:resteasy-multipart-provider:4.6.0.Final")
     implementation("org.jboss.resteasy:resteasy-jaxb-provider:4.6.0.Final")
 
-
-
-
+//    implementation("com.github.javafaker:javafaker:1.0.2")
+    implementation("io.github.serpro69:kotlin-faker:1.11.0")
     // Map Struct
     implementation ("org.mapstruct:mapstruct:1.5.2.Final")
     annotationProcessor ("org.mapstruct:mapstruct-processor:1.5.2.Final")

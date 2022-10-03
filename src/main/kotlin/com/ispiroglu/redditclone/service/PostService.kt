@@ -8,6 +8,7 @@ import com.ispiroglu.redditclone.extensions.asDto
 import com.ispiroglu.redditclone.repository.PostRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @Service
 class PostService(
@@ -26,11 +27,12 @@ class PostService(
             postTitle = request.title,
             postDesc = request.desc,
             owner = redditorService.getRedditorByUsername(AuthService.getRequestOwnerUsername()),
-            subreddit = subreddit
+            subreddit = subreddit,
+            creationDate = Instant.now()
         )
-        save(post)
+        val savedPost = save(post)
         subredditService.addPostToSubreddit(subreddit, post)
-        return PostDto(post.postTitle, post.postDesc, subreddit.subredditName)
+        return savedPost.asDto()
     }
 
     @Transactional(readOnly = true)

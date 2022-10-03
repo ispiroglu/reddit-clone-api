@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 data class Vote(
-    @Id @GeneratedValue val voteId: Long? = null,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val voteId: Long? = null,
     var voteType: VoteType,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")

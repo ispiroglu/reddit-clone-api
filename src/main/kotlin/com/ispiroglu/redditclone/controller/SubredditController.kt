@@ -22,7 +22,6 @@ class SubredditController(
         return ResponseEntity.created(uri).build()
     }
 
-
     @GetMapping
     fun getAllSubreddits() = ResponseEntity.ok( subredditService.getAllSubreddits() )
 

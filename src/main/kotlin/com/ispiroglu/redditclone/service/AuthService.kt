@@ -17,8 +17,14 @@ import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken
 import org.keycloak.admin.client.resource.UserResource
 import org.keycloak.representations.idm.GroupRepresentation
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.reactive.function.client.ClientResponse
+import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.bodyToMono
+import reactor.core.publisher.Mono
+import java.util.function.Function
+import java.util.function.Predicate
 
 @Service
 class AuthService(
@@ -63,6 +69,10 @@ class AuthService(
         realm.users().get(myUser.id).joinGroup(id)
     }
 
+
+    /*
+    * TODO: Should handle wrong credentials!
+    * */
     private fun getToken(username: String, password: String): KeycloakTokenResponse? {
         return loginClient.post()
             .uri("http://localhost:8000/realms/reddit-realm/protocol/openid-connect/token")
@@ -79,8 +89,16 @@ class AuthService(
         OAuth2Constants.CLIENT_ID to "reddit-client",
         OAuth2Constants.USERNAME to username,
         OAuth2Constants.PASSWORD to password,
-//        OAuth2Constants.CLIENT_SECRET to "dRc6llNYybrZ7BpdemCdnjWv2Tx3tuI8"
+//        OAuth2Constants.CLIENT_SECRET to "dRc6llNYybr Z7BpdemCdnjWv2Tx3tuI8"
     )
+
+    private fun wrongCredentials(): Function<ClientResponse, Mono<out Throwable>> {
+        throw NoSuchElementException("Wrong Credentials!")
+    }
+
+    private fun nice(): Function<ClientResponse, Mono<out Throwable>> {
+        throw NoSuchElementException("Nice Credentials!")
+    }
 
     companion object {
         fun getRequestOwnerUsername(): String {

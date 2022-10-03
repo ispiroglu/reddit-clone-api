@@ -1,12 +1,13 @@
 package com.ispiroglu.redditclone.domain.model
 
+import java.time.Instant
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
 data class Post(
 
-    @Id @GeneratedValue val postId: Long? = null,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val postId: Long? = null,
 
     @NotBlank val postTitle: String,
 
@@ -23,8 +24,10 @@ data class Post(
     @JoinColumn(name = "subredditId", referencedColumnName = "subredditId")
     val subreddit: Subreddit,
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId", referencedColumnName = "postId")
+    val creationDate: Instant,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+//    @JoinColumn(name = "commentId", referencedColumnName = "commentId")
     val comments: MutableList<Comment> = mutableListOf()
 )
 

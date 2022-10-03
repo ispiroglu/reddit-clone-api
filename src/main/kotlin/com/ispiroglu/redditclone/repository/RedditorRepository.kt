@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface RedditorRepository : JpaRepository<Redditor, Long> {
     fun findByUsername(username: String) : Redditor?
+
+    fun existsByUsername(username: String) : Boolean
+    fun existsByEmail(email: String) : Boolean
 }
